@@ -59,3 +59,24 @@ const seedResourcesTable = async () => {
         })
     })
 }
+
+// Join table (user <--> resource)
+const createFavoritesTable = async () => {
+    const createTableQuery = `
+        DROP TABLE IF EXISTS user_favorites;
+
+        CREATE TABLE IF NOT EXISTS user_favorites (
+            user_id integer NOT NULL,
+            resource_id integer NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES users(id),
+            FOREIGN KEY (resource_id) REFERENCES resources(id)
+        )
+    `
+
+    try {
+        const res = await pool.query(createTableQuery)
+        console.log('🎉 favorites table created successfully')
+    } catch (err) {
+        console.error('⚠️ error creating favorites table', err)
+    }
+}
