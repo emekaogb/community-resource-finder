@@ -1,13 +1,14 @@
 import { betterAuth } from "better-auth";
-import { postgresAdapter } from "better-auth/adapters/postgres";
-import { pool } from "./database.js";
+import { pool } from "../config/database.js"
+import "dotenv/config";
 
 export const auth = betterAuth({
-  database: postgresAdapter({
-    pool,
-  }),
-  providers: {
+  database: pool,
+  secret: process.env.BETTER_AUTH_SECRET,
+
+  socialProviders: {
     google: {
+      prompt: "select_account",
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     },
