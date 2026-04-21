@@ -4,7 +4,7 @@ import { pool } from "../config/database.js";
 
 const insertResource = async (resource) => {
     const insertQuery = {
-        text: 'INSERT INTO resources (name, street, city, state, zip_code, description, phone, website, image) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)'
+        text: 'INSERT INTO resources (name, street, city, state, zip_code, short_desc, long_desc, phone, website, image) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)'
     }
 
     const values = [
@@ -31,16 +31,16 @@ const insertResource = async (resource) => {
 };
 
 const run = async () => {
-  const places = await searchPlaces();
+    const places = await searchPlaces();
 
-  for (const p of places) {
-    const details = await getPlaceDetails(p.place_id);
-    const resource = transformPlace(details);
-    await insertResource(resource);
-  }
+    for (const p of places) {
+        const details = await getPlaceDetails(p.place_id);
+        const resource = transformPlace(details);
+        await insertResource(resource);
+    }
 
-  console.log("Done seeding");
-  process.exit();
+    console.log("Done seeding");
+    process.exit();
 };
 
 run();

@@ -16,9 +16,9 @@ const createResourcesTable = async () => {
             zip_code integer,
             short_desc varchar(255),
             long_desc varchar(500),
-            phone integer,
+            phone varchar(255),
             website varchar(255),
-            image varchar(255)
+            image text
         )
     `
 

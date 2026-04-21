@@ -39,6 +39,4 @@ const transformPlace = (place) => {
   };
 };
 
-export default searchPlaces
-export default getPlaceDetails
-export default transformPlace
+export { searchPlaces, getPlaceDetails, transformPlace }
