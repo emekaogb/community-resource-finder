@@ -1,0 +1,38 @@
+.filters {
+  width: 220px;
+  flex-shrink: 0;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.filters__search {
+  width: 100%;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.filters__heading {
+  margin: 0 0 10px;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.filters__list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filters__option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
