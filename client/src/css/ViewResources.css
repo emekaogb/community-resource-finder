@@ -1,0 +1,14 @@
+.view-resources {
+  display: flex;
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+.view-resources__grid {
+  flex: 1;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  align-content: start;
+}

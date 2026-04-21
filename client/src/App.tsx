@@ -1,4 +1,3 @@
-import React from 'react'
 import { useRoutes } from 'react-router-dom'
 import Header from './components/Header'
 import Login from './pages/Login'
