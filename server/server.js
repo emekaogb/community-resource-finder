@@ -1,10 +1,16 @@
 import express from "express";
+import cors from "cors";
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "./config/auth.js";
 import userRoutes from "./routes/users.js";
 import "dotenv/config";
 
 const app = express();
+
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true,
+}));
 
 /* Better Auth */
 app.all("/api/auth/{*path}", toNodeHandler(auth));

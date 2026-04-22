@@ -5,6 +5,7 @@ import "dotenv/config";
 export const auth = betterAuth({
   database: pool,
   secret: process.env.BETTER_AUTH_SECRET,
+  trustedOrigins: ["http://localhost:5173"],
 
   socialProviders: {
     google: {
