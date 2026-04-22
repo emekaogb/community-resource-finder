@@ -14,11 +14,36 @@
   font-weight: 700;
 }
 
-.header__favorites-link {
+.header__right {
   position: absolute;
   right: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header__favorites-link {
   font-size: 24px;
   color: #888;
   text-decoration: none;
   line-height: 1;
+}
+
+.header__user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.header__username {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
 }
