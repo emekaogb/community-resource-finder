@@ -56,6 +56,7 @@ function ViewResources() {
         {PLACEHOLDER_RESOURCES.map(resource => (
           <ResourceCard
             key={resource.id}
+            id={resource.id}
             name={resource.name}
             category={resource.category}
             description={resource.description}

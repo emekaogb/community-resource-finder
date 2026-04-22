@@ -1,3 +1,8 @@
+.resource-card__link {
+  text-decoration: none;
+  color: inherit;
+}
+
 .resource-card {
   background: #ececec;
   border-radius: 12px;

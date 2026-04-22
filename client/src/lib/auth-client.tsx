@@ -7,6 +7,6 @@ export const authClient = createAuthClient({
 export const signIn = async () => {
   await authClient.signIn.social({
     provider: "google",
-    callbackURL: "http://localhost:5173",
+    callbackURL: "http://localhost:5173/resources",
   });
 };
