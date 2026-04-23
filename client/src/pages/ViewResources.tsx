@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ResourceCard from '../components/ResourceCard'
 import Filters from '../components/Filters'
 import '../css/ViewResources.css'
@@ -6,16 +6,11 @@ import '../css/ViewResources.css'
 interface Resource {
   id: number
   name: string
-  category: string
-  description: string
+  short_desc: string
+  long_desc: string
+  city: string
+  state: string
 }
-
-const PLACEHOLDER_RESOURCES: Resource[] = Array.from({ length: 8 }, (_, i) => ({
-  id: i,
-  name: 'Resource Name',
-  category: 'Category',
-  description: 'Short description.....\n.....\n.....',
-}))
 
 const FILTER_OPTIONS = [
   { id: 'f1', label: 'Filter name' },
@@ -27,9 +22,16 @@ const FILTER_OPTIONS = [
 ]
 
 function ViewResources() {
+  const [resources, setResources] = useState<Resource[]>([])
   const [search, setSearch] = useState('')
   const [filters, setFilters] = useState(FILTER_OPTIONS.map(f => ({ ...f, checked: false })))
   const [favorited, setFavorited] = useState<Set<number>>(new Set())
+
+  useEffect(() => {
+    fetch('http://localhost:3000/api/resources')
+      .then(res => res.json())
+      .then(data => setResources(data))
+  }, [])
 
   const toggleFilter = (id: string) => {
     setFilters(prev => prev.map(f => f.id === id ? { ...f, checked: !f.checked } : f))
@@ -53,13 +55,13 @@ function ViewResources() {
         onFilterChange={toggleFilter}
       />
       <main className="view-resources__grid">
-        {PLACEHOLDER_RESOURCES.map(resource => (
+        {resources.map(resource => (
           <ResourceCard
             key={resource.id}
             id={resource.id}
             name={resource.name}
-            category={resource.category}
-            description={resource.description}
+            short_desc={resource.short_desc}
+            long_desc={resource.long_desc}
             favorited={favorited.has(resource.id)}
             onToggleFavorite={() => toggleFavorite(resource.id)}
           />

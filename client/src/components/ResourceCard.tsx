@@ -4,13 +4,13 @@ import '../css/ResourceCard.css'
 interface ResourceCardProps {
   id: number
   name: string
-  category: string
-  description: string
+  short_desc: string
+  long_desc: string
   favorited: boolean
   onToggleFavorite: () => void
 }
 
-function ResourceCard({ id, name, category, description, favorited, onToggleFavorite }: ResourceCardProps) {
+function ResourceCard({ id, name, short_desc, favorited, onToggleFavorite }: ResourceCardProps) {
   return (
     <Link to={`/resources/${id}`} className="resource-card__link">
       <div className="resource-card">
@@ -21,8 +21,7 @@ function ResourceCard({ id, name, category, description, favorited, onToggleFavo
           {favorited ? '★' : '☆'}
         </button>
         <h3 className="resource-card__name">{name}</h3>
-        <p className="resource-card__category">{category}</p>
-        <p className="resource-card__description">{description}</p>
+        <p className="resource-card__description">{short_desc}</p>
       </div>
     </Link>
   )

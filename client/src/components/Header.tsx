@@ -20,10 +20,13 @@ function Header() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  useEffect(() => {
+    if (session === null) navigate('/login', { replace: true })
+  }, [session, navigate])
+
   const handleSignOut = async () => {
-    await authClient.signOut()
     setDropdownOpen(false)
-    navigate('/login')
+    await authClient.signOut()
   }
 
   return (
