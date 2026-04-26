@@ -4,7 +4,7 @@ import { pool } from "../config/database.js";
 
 const insertResource = async (resource) => {
     const insertQuery = {
-        text: 'INSERT INTO resources (name, street, city, state, zip_code, short_desc, long_desc, phone, website, image) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)'
+        text: 'INSERT INTO resources (name, street, city, state, zip_code, description, phone, website, image) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)'
     }
 
     const values = [
@@ -13,8 +13,7 @@ const insertResource = async (resource) => {
         resource.city,
         resource.state,
         resource.zip_code,
-        resource.short_desc,
-        resource.long_desc,
+        resource.description,
         resource.phone,
         resource.website,
         resource.image

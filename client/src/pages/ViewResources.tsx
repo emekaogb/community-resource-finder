@@ -6,8 +6,7 @@ import '../css/ViewResources.css'
 interface Resource {
   id: number
   name: string
-  short_desc: string
-  long_desc: string
+  description: string
   city: string
   state: string
 }
@@ -60,8 +59,7 @@ function ViewResources() {
             key={resource.id}
             id={resource.id}
             name={resource.name}
-            short_desc={resource.short_desc}
-            long_desc={resource.long_desc}
+            description={resource.description}
             favorited={favorited.has(resource.id)}
             onToggleFavorite={() => toggleFavorite(resource.id)}
           />

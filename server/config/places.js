@@ -29,8 +29,7 @@ const transformPlace = (place) => {
     city: parts[1]?.trim() || "",
     state: parts[2]?.trim().split(" ")[0] || "",
     zip_code: parseInt(parts[2]?.trim().split(" ")[1]) || null,
-    short_desc: place.types?.join(", "),
-    long_desc: place.editorial_summary?.overview || "",
+    description: place.editorial_summary?.overview || "",
     phone: place.formatted_phone_number || null,
     website: place.website || "",
     image: place.photos
