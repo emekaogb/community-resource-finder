@@ -1,19 +1,22 @@
 import dotenv from 'dotenv'
-dotenv.config({ path: 'server/.env' })
+dotenv.config()
 import { pool } from "./database.js"
+import { CATEGORIES } from "./places.js"
 
 const createResourcesTable = async () => {
     const createTableQuery = `
-        DROP TABLE IF EXISTS resources;
+        DROP TABLE IF EXISTS resources CASCADE;
 
         CREATE TABLE IF NOT EXISTS resources (
             id SERIAL PRIMARY KEY,
-            place_id varchar(255),
+            place_id varchar(255) UNIQUE,
             name varchar(255) NOT NULL,
             street varchar(255),
             city varchar(255),
             state varchar(255),
             zip_code integer,
+            lat numeric,
+            lng numeric,
             description varchar(500),
             phone varchar(255),
             website varchar(255),
@@ -52,11 +55,11 @@ const createFavoritesTable = async () => {
 
 const createCategoriesTable = async () => {
     const createTableQuery = `
-        DROP TABLE IF EXISTS categories;
+        DROP TABLE IF EXISTS categories CASCADE;
 
         CREATE TABLE IF NOT EXISTS categories (
             id SERIAL PRIMARY KEY,
-            name varchar(255) NOT NULL,
+            name varchar(255) NOT NULL UNIQUE
         )
     `
 
@@ -92,6 +95,16 @@ const createReviewsTable = async () => {
     }
 }
 
+const seedCategories = async () => {
+    for (const name of CATEGORIES) {
+        await pool.query(
+            `INSERT INTO categories (name) VALUES ($1) ON CONFLICT (name) DO NOTHING`,
+            [name]
+        )
+    }
+    console.log('🎉 categories seeded successfully')
+}
+
 const createResourceCategoryTable = async () => {
     const createTableQuery = `
         DROP TABLE IF EXISTS resource_category;
@@ -100,7 +113,8 @@ const createResourceCategoryTable = async () => {
             resource_id integer NOT NULL,
             category_id integer NOT NULL,
             FOREIGN KEY (resource_id) REFERENCES resources(id),
-            FOREIGN KEY (category_id) REFERENCES categories(id)
+            FOREIGN KEY (category_id) REFERENCES categories(id),
+            UNIQUE (resource_id, category_id)
         )
     `
 
@@ -112,3 +126,15 @@ const createResourceCategoryTable = async () => {
     }
 }
 
+
+const run = async () => {
+    await createCategoriesTable()
+    await createResourcesTable()
+    await createFavoritesTable()
+    await createReviewsTable()
+    await createResourceCategoryTable()
+    await seedCategories()
+    await pool.end()
+}
+
+run()

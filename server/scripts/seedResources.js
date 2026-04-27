@@ -29,13 +29,27 @@ const insertResource = async (resource) => {
     });
 };
 
-const run = async () => {
-    const places = await searchPlaces();
+const CATEGORIES = [
+    "Food Bank",
+    "Homeless Shelter",
+    "Free Low-Cost Clinic",
+    "Mental Health Support",
+    "Job Training Center",
+    "Community Event",
+    "After-School Programs",
+    "Immigration Legal Aid",
+];
 
-    for (const p of places) {
-        const details = await getPlaceDetails(p.place_id);
-        const resource = transformPlace(details);
-        await insertResource(resource);
+const run = async () => {
+    for (const category of CATEGORIES) {
+        console.log(`🔍 Searching for: ${category}`);
+        const places = await searchPlaces(category);
+
+        for (const p of places) {
+            const details = await getPlaceDetails(p.place_id);
+            const resource = transformPlace(details);
+            await insertResource(resource);
+        }
     }
 
     console.log("Done seeding");

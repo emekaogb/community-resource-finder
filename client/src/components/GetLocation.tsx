@@ -1,11 +1,20 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
-function GetLocation() {
-    useEffect(() => {
-        navigator.geolocation.getCurrentPosition((pos) => {
-            console.log(pos.coords);
-        });
-    }, []);
+interface Coords {
+  lat: number;
+  lng: number;
 }
 
-export default GetLocation;
+export function useLocation() {
+  const [coords, setCoords] = useState<Coords | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => setCoords({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+      () => setError("Location access denied")
+    );
+  }, []);
+
+  return { coords, error };
+}

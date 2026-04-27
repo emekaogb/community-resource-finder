@@ -41,6 +41,21 @@
   color: #555;
 }
 
+.resource-card__categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 10px;
+}
+
+.resource-card__category-tag {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #d4d4d4;
+  color: #444;
+}
+
 .resource-card__description {
   margin: 0;
   font-size: 14px;

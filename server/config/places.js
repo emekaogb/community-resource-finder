@@ -1,7 +1,19 @@
 const API_KEY = process.env.GOOGLE_PLACES_KEY;
 
-const searchPlaces = async () => {
-  const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=food+bank+in+maryland&key=${API_KEY}`;
+const CATEGORIES = [
+  "Food Bank",
+  "Homeless Shelter",
+  "Free Low-Cost Clinic",
+  "Mental Health Support",
+  "Job Training Center",
+  "Community Event",
+  "After-School Programs",
+  "Immigration Legal Aid",
+];
+
+const searchPlaces = async (query, lat, lng) => {
+  const location = lat && lng ? `&location=${lat},${lng}&radius=50000` : "";
+  const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(query)}${location}&key=${API_KEY}`;
 
   const res = await fetch(url);
   const data = await res.json();
@@ -38,4 +50,4 @@ const transformPlace = (place) => {
   };
 };
 
-export { searchPlaces, getPlaceDetails, transformPlace }
+export { searchPlaces, getPlaceDetails, transformPlace, CATEGORIES }

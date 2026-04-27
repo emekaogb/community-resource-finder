@@ -4,6 +4,7 @@ import { toNodeHandler } from "better-auth/node";
 import { auth } from "./config/auth.js";
 import userRoutes from "./routes/users.js";
 import resourceRoutes from "./routes/resources.js";
+import categoryRoutes from "./routes/categories.js";
 import "dotenv/config";
 
 const app = express();
@@ -22,6 +23,7 @@ app.use(express.json());
 /* Routes */
 app.use("/api/user", userRoutes);
 app.use("/api/resources", resourceRoutes);
+app.use("/api/categories", categoryRoutes);
 
 app.get("/", (req, res) => {
   res.send("API running");

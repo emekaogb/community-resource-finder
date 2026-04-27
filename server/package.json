@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "npm run reset && nodemon --require dotenv/config server.js",
-    "reset": "cd config && node --require dotenv/config reset.js"
+    "reset": "node config/reset.js"
   },
   "keywords": [],
   "author": "",

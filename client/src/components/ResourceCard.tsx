@@ -5,11 +5,12 @@ interface ResourceCardProps {
   id: number
   name: string
   description: string
+  categories: string[]
   favorited: boolean
   onToggleFavorite: () => void
 }
 
-function ResourceCard({ id, name, description, favorited, onToggleFavorite }: ResourceCardProps) {
+function ResourceCard({ id, name, description, categories, favorited, onToggleFavorite }: ResourceCardProps) {
   return (
     <Link to={`/resources/${id}`} className="resource-card__link">
       <div className="resource-card">
@@ -20,6 +21,11 @@ function ResourceCard({ id, name, description, favorited, onToggleFavorite }: Re
           {favorited ? '★' : '☆'}
         </button>
         <h3 className="resource-card__name">{name}</h3>
+        <div className="resource-card__categories">
+          {categories.map(cat => (
+            <span key={cat} className="resource-card__category-tag">{cat}</span>
+          ))}
+        </div>
         <p className="resource-card__description">{description}</p>
       </div>
     </Link>
