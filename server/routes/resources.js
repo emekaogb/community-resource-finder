@@ -80,7 +80,7 @@ router.get("/nearby", async (req, res) => {
           [resourceId, p.category]
         );
 
-        return { ...resource, category: p.category };
+        return { ...resource, id: resourceId, category: p.category };
       })
     );
 

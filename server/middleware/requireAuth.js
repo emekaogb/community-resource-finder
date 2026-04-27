@@ -1,6 +1,11 @@
+import { auth } from "../config/auth.js";
+import { fromNodeHeaders } from "better-auth/node";
+
 export async function requireAuth(req, res, next) {
   try {
-    const session = await req.auth.getSession();
+    const session = await auth.api.getSession({
+      headers: fromNodeHeaders(req.headers),
+    });
 
     if (!session) {
       return res.status(401).json({ error: "Unauthorized" });

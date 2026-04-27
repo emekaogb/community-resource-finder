@@ -21,6 +21,14 @@ function ViewResources() {
   const { coords, error: locationError } = useLocation()
 
   useEffect(() => {
+    fetch('http://localhost:3000/api/favorites', { credentials: 'include' })
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) setFavorited(new Set(data.map((r: Resource) => r.id)))
+      })
+  }, [])
+
+  useEffect(() => {
     fetch('http://localhost:3000/api/categories')
       .then(res => res.json())
       .then(data => setFilters(data.map((c: { id: number; name: string }) => ({
@@ -47,10 +55,21 @@ function ViewResources() {
     setFilters(prev => prev.map(f => f.id === id ? { ...f, checked: !f.checked } : f))
   }
 
-  const toggleFavorite = (id: number) => {
+  const toggleFavorite = async (id: number) => {
+    const isFavorited = favorited.has(id)
+    const method = isFavorited ? 'DELETE' : 'POST'
+    const res = await fetch(`http://localhost:3000/api/favorites/${id}`, {
+      method,
+      credentials: 'include',
+    })
+    if (!res.ok) {
+      const err = await res.json()
+      console.error('Favorite toggle failed:', res.status, err)
+      return
+    }
     setFavorited(prev => {
       const next = new Set(prev)
-      if (next.has(id)) next.delete(id)
+      if (isFavorited) next.delete(id)
       else next.add(id)
       return next
     })
