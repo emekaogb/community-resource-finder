@@ -10,8 +10,13 @@ import "dotenv/config";
 
 const app = express();
 
+const allowedOrigins = ["http://localhost:5173", process.env.CLIENT_URL].filter(Boolean)
+
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) callback(null, origin)
+    else callback(new Error("Not allowed by CORS"))
+  },
   credentials: true,
 }));
 
@@ -32,6 +37,7 @@ app.get("/", (req, res) => {
 });
 
 /* Server */
-app.listen(3000, () => {
-  console.log("Server running at http://localhost:3000");
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
 });
