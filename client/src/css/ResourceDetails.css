@@ -11,14 +11,14 @@
 
 .resource-details__address {
   font-style: italic;
-  font-size: 15px;
+  font-size: 20px;
   color: #555;
   margin: 0 0 24px;
 }
 
 .resource-details__description-label {
   font-weight: 700;
-  font-size: 15px;
+  font-size: 18px;
 }
 
 .resource-details__description {
@@ -38,7 +38,7 @@
 .resource-details__map {
   background: #ececec;
   border-radius: 12px;
-  height: 260px;
+  height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
