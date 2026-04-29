@@ -27,9 +27,9 @@ function ViewFavorites() {
 
   return (
     <div style={{ padding: '24px' }}>
-      <h2 style={{ marginBottom: '20px' }}>My Favourites</h2>
+      <h2 style={{ marginBottom: '20px' }}>My Favorites</h2>
       {favorites.length === 0 ? (
-        <p style={{ color: '#777' }}>No favourites saved yet.</p>
+        <p style={{ color: '#777' }}>No favorites saved yet.</p>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px' }}>
           {favorites.map(resource => (
