@@ -20,37 +20,35 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/nearby", async (req, res) => {
-  const { lat, lng } = req.query;
+router.get("/search", async (req, res) => {
+  const { q } = req.query;
+  if (!q || !q.trim()) return res.status(400).json({ error: "Missing search query" });
 
-  const roundedLat = lat ? Math.round(parseFloat(lat) * 100) / 100 : null;
-  const roundedLng = lng ? Math.round(parseFloat(lng) * 100) / 100 : null;
+  const query = q.trim().toLowerCase();
 
   try {
-    if (roundedLat && roundedLng) {
-      const { rows: cached } = await pool.query(
-        `SELECT COUNT(*) FROM resources WHERE lat = $1 AND lng = $2`,
-        [roundedLat, roundedLng]
-      );
+    const { rows: cached } = await pool.query(
+      `SELECT COUNT(*) FROM resources WHERE search_query = $1`,
+      [query]
+    );
 
-      if (parseInt(cached[0].count) > 0) {
-        const { rows } = await pool.query(`
-          SELECT r.*, array_agg(c.name) FILTER (WHERE c.name IS NOT NULL) AS categories
-          FROM resources r
-          LEFT JOIN resource_category rc ON r.id = rc.resource_id
-          LEFT JOIN categories c ON rc.category_id = c.id
-          WHERE r.lat = $1 AND r.lng = $2
-          GROUP BY r.id
-          ORDER BY r.id
-        `, [roundedLat, roundedLng]);
-        return res.json(rows);
-      }
+    if (parseInt(cached[0].count) > 0) {
+      const { rows } = await pool.query(`
+        SELECT r.*, array_agg(c.name) FILTER (WHERE c.name IS NOT NULL) AS categories
+        FROM resources r
+        LEFT JOIN resource_category rc ON r.id = rc.resource_id
+        LEFT JOIN categories c ON rc.category_id = c.id
+        WHERE r.search_query = $1
+        GROUP BY r.id
+        ORDER BY r.id
+      `, [query]);
+      return res.json(rows);
     }
 
     const results = await Promise.all(
       CATEGORIES.map(async (category) => {
-        const places = await searchPlaces(category, lat, lng);
-        return places.map(p => ({ ...p, category }));
+        const places = await searchPlaces(category, query);
+        return (places || []).map(p => ({ ...p, category }));
       })
     );
     const places = results.flat();
@@ -61,12 +59,12 @@ router.get("/nearby", async (req, res) => {
         const resource = transformPlace(details);
 
         const { rows } = await pool.query(
-          `INSERT INTO resources (place_id, name, street, city, state, zip_code, lat, lng, description, phone, website, image)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
-           ON CONFLICT (place_id) DO NOTHING
+          `INSERT INTO resources (place_id, search_query, name, street, city, state, zip_code, description, phone, website, image)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+           ON CONFLICT (place_id) DO UPDATE SET search_query = EXCLUDED.search_query
            RETURNING id`,
-          [resource.id, resource.name, resource.street, resource.city, resource.state,
-           resource.zip_code, roundedLat, roundedLng, resource.description, resource.phone, resource.website, resource.image]
+          [resource.id, query, resource.name, resource.street, resource.city, resource.state,
+           resource.zip_code, resource.description, resource.phone, resource.website, resource.image]
         );
 
         const resourceId = rows[0]?.id ?? (
@@ -80,13 +78,14 @@ router.get("/nearby", async (req, res) => {
           [resourceId, p.category]
         );
 
-        return { ...resource, id: resourceId, category: p.category };
+        return { ...resource, id: resourceId, categories: [p.category] };
       })
     );
 
     res.json(resources);
   } catch (err) {
-    res.status(500).json({ error: "Failed to fetch nearby resources" });
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch resources" });
   }
 });
 

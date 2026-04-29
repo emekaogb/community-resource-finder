@@ -17,6 +17,7 @@
   margin: 0;
   font-size: 25px;
   font-weight: 800;
+  font-family:'Courier New', Courier, monospace;
 }
 
 .header__right {
@@ -88,7 +89,8 @@
 }
 
 .header__username {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 800;
   color: #ffffff;
+  font-family:'Courier New', Courier, monospace;
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import ResourceCard from '../components/ResourceCard'
 import Filters from '../components/Filters'
-import { useLocation } from '../components/GetLocation'
 import '../css/ViewResources.css'
 
 interface Resource {
@@ -14,11 +14,15 @@ interface Resource {
 }
 
 function ViewResources() {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const submittedQuery = searchParams.get('q') ?? ''
+
   const [resources, setResources] = useState<Resource[]>([])
   const [search, setSearch] = useState('')
   const [filters, setFilters] = useState<{ id: string; label: string; checked: boolean }[]>([])
   const [favorited, setFavorited] = useState<Set<number>>(new Set())
-  const { coords, error: locationError } = useLocation()
+  const [locationQuery, setLocationQuery] = useState(submittedQuery)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     fetch('http://localhost:3000/api/favorites', { credentials: 'include' })
@@ -39,17 +43,29 @@ function ViewResources() {
   }, [])
 
   useEffect(() => {
-    if (coords === null && locationError === null) return
-    const url = coords
-      ? `http://localhost:3000/api/resources/nearby?lat=${coords.lat}&lng=${coords.lng}`
-      : `http://localhost:3000/api/resources/nearby`
-    fetch(url)
-      .then(res => res.json())
-      .then(data => {
-        if (Array.isArray(data)) setResources(data)
-        else console.error('Failed to load resources:', data)
-      })
-  }, [coords, locationError])
+    if (!submittedQuery) return
+    let cancelled = false
+    const load = async () => {
+      setLoading(true)
+      try {
+        const res = await fetch(`http://localhost:3000/api/resources/search?q=${encodeURIComponent(submittedQuery)}`)
+        const data = await res.json()
+        if (!cancelled) {
+          if (Array.isArray(data)) setResources(data)
+          else console.error('Failed to load resources:', data)
+        }
+      } finally {
+        if (!cancelled) setLoading(false)
+      }
+    }
+    load()
+    return () => { cancelled = true }
+  }, [submittedQuery])
+
+  const handleSearch = (e: { preventDefault: () => void }) => {
+    e.preventDefault()
+    if (locationQuery.trim()) setSearchParams({ q: locationQuery.trim() })
+  }
 
   const toggleFilter = (id: string) => {
     setFilters(prev => prev.map(f => f.id === id ? { ...f, checked: !f.checked } : f))
@@ -84,6 +100,26 @@ function ViewResources() {
     return matchesSearch && matchesFilter
   })
 
+  if (!submittedQuery) {
+    return (
+      <div className="view-resources view-resources--empty">
+        <form className="view-resources__location-form" onSubmit={handleSearch}>
+          <h2 className="view-resources__location-heading">Find resources near you:</h2>
+          <div className="view-resources__location-input-row">
+            <input
+              className="view-resources__location-input"
+              type="text"
+              placeholder="Enter a zip code or city"
+              value={locationQuery}
+              onChange={e => setLocationQuery(e.target.value)}
+            />
+            <button className="view-resources__location-btn" type="submit">Search</button>
+          </div>
+        </form>
+      </div>
+    )
+  }
+
   return (
     <div className="view-resources">
       <Filters
@@ -93,17 +129,23 @@ function ViewResources() {
         onFilterChange={toggleFilter}
       />
       <main className="view-resources__grid">
-        {visibleResources.map(resource => (
-          <ResourceCard
-            key={resource.id}
-            id={resource.id}
-            name={resource.name}
-            description={resource.description}
-            categories={resource.categories ?? []}
-            favorited={favorited.has(resource.id)}
-            onToggleFavorite={() => toggleFavorite(resource.id)}
-          />
-        ))}
+        {loading ? (
+          <p className="view-resources__status">Loading resources...</p>
+        ) : visibleResources.length === 0 ? (
+          <p className="view-resources__status">No resources found for "{submittedQuery}".</p>
+        ) : (
+          visibleResources.map(resource => (
+            <ResourceCard
+              key={resource.id}
+              id={resource.id}
+              name={resource.name}
+              description={resource.description}
+              categories={resource.categories ?? []}
+              favorited={favorited.has(resource.id)}
+              onToggleFavorite={() => toggleFavorite(resource.id)}
+            />
+          ))
+        )}
       </main>
     </div>
   )

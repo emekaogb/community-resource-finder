@@ -35,7 +35,7 @@ function Header() {
         <h1 className="header__title">Community Resource Finder</h1>
       </Link>
       <div className="header__right">
-        <Link to="/favorites" className="header__favorites-link">☆</Link>
+        <Link to="/favorites" className="header__favorites-link">★</Link>
         {session && (
           <div className="header__user" ref={dropdownRef}>
             <button
