@@ -12,13 +12,13 @@ function ViewFavorites() {
   const [favorites, setFavorites] = useState<Resource[]>([])
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/favorites', { credentials: 'include' })
+    fetch(`${import.meta.env.VITE_API_URL}/api/favorites`, { credentials: 'include' })
       .then(res => res.json())
       .then(data => { if (Array.isArray(data)) setFavorites(data) })
   }, [])
 
   const removeFavorite = async (id: number) => {
-    await fetch(`http://localhost:3000/api/favorites/${id}`, {
+    await fetch(`${import.meta.env.VITE_API_URL}/api/favorites/${id}`, {
       method: 'DELETE',
       credentials: 'include',
     })

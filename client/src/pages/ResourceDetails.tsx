@@ -18,7 +18,7 @@ function ResourceDetails() {
   const [resource, setResource] = useState<Resource | null>(null)
 
   useEffect(() => {
-    fetch(`http://localhost:3000/api/resources/${id}`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/resources/${id}`)
       .then(res => res.json())
       .then(data => setResource(data))
   }, [id])

@@ -25,7 +25,7 @@ function ViewResources() {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/favorites', { credentials: 'include' })
+    fetch(`${import.meta.env.VITE_API_URL}/api/favorites`, { credentials: 'include' })
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) setFavorited(new Set(data.map((r: Resource) => r.id)))
@@ -33,7 +33,7 @@ function ViewResources() {
   }, [])
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/categories')
+    fetch(`${import.meta.env.VITE_API_URL}/api/categories`)
       .then(res => res.json())
       .then(data => setFilters(data.map((c: { id: number; name: string }) => ({
         id: String(c.id),
@@ -48,7 +48,7 @@ function ViewResources() {
     const load = async () => {
       setLoading(true)
       try {
-        const res = await fetch(`http://localhost:3000/api/resources/search?q=${encodeURIComponent(submittedQuery)}`)
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/resources/search?q=${encodeURIComponent(submittedQuery)}`)
         const data = await res.json()
         if (!cancelled) {
           if (Array.isArray(data)) setResources(data)
@@ -74,7 +74,7 @@ function ViewResources() {
   const toggleFavorite = async (id: number) => {
     const isFavorited = favorited.has(id)
     const method = isFavorited ? 'DELETE' : 'POST'
-    const res = await fetch(`http://localhost:3000/api/favorites/${id}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/favorites/${id}`, {
       method,
       credentials: 'include',
     })
