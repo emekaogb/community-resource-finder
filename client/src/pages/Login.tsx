@@ -16,7 +16,7 @@ function Login() {
     <div className="login">
       <div className="login__card">
         <h2 className="login__title">Welcome</h2>
-        <p className="login__subtitle">Sign in to save and manage your favourite community resources.</p>
+        <p className="login__subtitle">Sign in to access information about community resources.</p>
         <button className="login__google-btn" onClick={signIn}>
           <img src={googleLogo} alt="Google" className="login__google-icon" />
           Continue with Google
