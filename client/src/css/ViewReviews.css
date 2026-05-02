@@ -1,0 +1,81 @@
+.view-reviews {
+  padding: 40px 48px;
+  max-width: 700px;
+}
+
+.view-reviews__heading {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 24px;
+}
+
+.view-reviews__status {
+  font-size: 15px;
+  color: #888;
+  font-style: italic;
+}
+
+.view-reviews__list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.view-reviews__item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.view-reviews__item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.view-reviews__actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.view-reviews__resource-link {
+  font-size: 15px;
+  font-weight: 700;
+  color: #2196f3;
+  text-decoration: none;
+}
+
+.view-reviews__resource-link:hover {
+  text-decoration: underline;
+}
+
+.view-reviews__edit-btn {
+  font-size: 13px;
+  font-weight: 700;
+  color: #555;
+  text-decoration: none;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1.5px solid #ccc;
+}
+
+.view-reviews__edit-btn:hover {
+  border-color: #2196f3;
+  color: #2196f3;
+}
+
+.view-reviews__delete-btn {
+  font-size: 13px;
+  font-weight: 700;
+  color: #c0392b;
+  background: none;
+  border: 1.5px solid #ccc;
+  border-radius: 999px;
+  padding: 4px 12px;
+  cursor: pointer;
+}
+
+.view-reviews__delete-btn:hover {
+  border-color: #c0392b;
+}

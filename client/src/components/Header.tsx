@@ -51,6 +51,9 @@ function Header() {
             </button>
             {dropdownOpen && (
               <div className="header__dropdown">
+                <Link to="/reviews" className="header__dropdown-item" onClick={() => setDropdownOpen(false)}>
+                  My Reviews
+                </Link>
                 <button className="header__dropdown-item" onClick={handleSignOut}>
                   Log out
                 </button>

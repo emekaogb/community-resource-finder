@@ -5,6 +5,7 @@ import ResourceDetails from './pages/ResourceDetails'
 import ViewFavorites from './pages/ViewFavorites'
 import ViewResources from './pages/ViewResources'
 import CreateReview from './pages/CreateReview'
+import ViewReviews from './pages/ViewReviews'
 import './App.css'
 
 const App = () => {
@@ -28,6 +29,10 @@ const App = () => {
     {
       path: '/review/:id',
       element: <CreateReview />
+    },
+    {
+      path: '/reviews',
+      element: <ViewReviews />
     }
   ])
 
