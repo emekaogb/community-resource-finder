@@ -27,13 +27,13 @@
 }
 
 .review-card__name {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 700;
   color: #1e3a5f;
 }
 
 .review-card__date {
-  font-size: 16px;
+  font-size: 12px;
   color: #888;
 }
 
@@ -44,7 +44,7 @@
 }
 
 .review-card__comment {
-  font-size: 18px;
+  font-size: 14px;
   color: #333;
   line-height: 1.5;
   margin: 0;
