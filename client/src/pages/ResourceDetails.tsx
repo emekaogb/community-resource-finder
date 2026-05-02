@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
+import ReviewCard from '../components/ReviewCard'
 import '../css/ResourceDetails.css'
 
 interface Resource {
@@ -13,14 +14,30 @@ interface Resource {
   image: string
 }
 
+interface Review {
+  id: number
+  user_name: string
+  user_image: string | null
+  rating: number
+  comment: string
+  created_at: string
+}
+
 function ResourceDetails() {
   const { id } = useParams()
   const [resource, setResource] = useState<Resource | null>(null)
+  const [reviews, setReviews] = useState<Review[]>([])
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/resources/${id}`)
       .then(res => res.json())
       .then(data => setResource(data))
+  }, [id])
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/reviews/${id}`)
+      .then(res => res.json())
+      .then(data => { if (Array.isArray(data)) setReviews(data) })
   }, [id])
 
   if (!resource) return <p style={{ padding: '40px' }}>Loading...</p>
@@ -54,6 +71,29 @@ function ResourceDetails() {
             allowFullScreen
           />
         </div>
+      </div>
+
+      <div className="resource-details__reviews">
+        <div className="resource-details__reviews-header">
+          <h2 className="resource-details__reviews-heading">Reviews</h2>
+          <Link to={`/review/${id}`} className="resource-details__review-btn">Write a Review</Link>
+        </div>
+        {reviews.length === 0 ? (
+          <p className="resource-details__no-reviews">No reviews yet. Be the first!</p>
+        ) : (
+          <div className="resource-details__reviews-list">
+            {reviews.map(review => (
+              <ReviewCard
+                key={review.id}
+                userName={review.user_name}
+                userImage={review.user_image}
+                rating={review.rating}
+                comment={review.comment}
+                createdAt={review.created_at}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )

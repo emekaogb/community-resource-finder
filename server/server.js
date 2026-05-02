@@ -6,6 +6,7 @@ import userRoutes from "./routes/users.js";
 import resourceRoutes from "./routes/resources.js";
 import categoryRoutes from "./routes/categories.js";
 import favoriteRoutes from "./routes/favorites.js";
+import reviewRoutes from "./routes/reviews.js";
 import "dotenv/config";
 
 const app = express();
@@ -31,6 +32,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/resources", resourceRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/favorites", favoriteRoutes);
+app.use("/api/reviews", reviewRoutes);
 
 app.get("/", (req, res) => {
   res.send("API running");

@@ -54,3 +54,46 @@
   object-fit: cover;
   border-radius: 12px;
 }
+
+.resource-details__reviews {
+  margin-top: 40px;
+}
+
+.resource-details__reviews-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.resource-details__reviews-heading {
+  font-size: 25px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.resource-details__review-btn {
+  padding: 8px 20px;
+  font-size: 16px;
+  font-weight: 700;
+  background: #2196f3;
+  color: white;
+  border-radius: 999px;
+  text-decoration: none;
+}
+
+.resource-details__review-btn:hover {
+  background: #1976d2;
+}
+
+.resource-details__no-reviews {
+  font-size: 14px;
+  color: #888;
+  font-style: italic;
+}
+
+.resource-details__reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
