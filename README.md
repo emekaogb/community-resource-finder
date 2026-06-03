@@ -28,33 +28,33 @@ External APIs: Google Maps Embed, Google Places
 
 ## Features
 
-### ✅ Lists all local resources
+### Lists all local resources
 
 One page that lists all the local resources in the area, paginated and displayed via cards.
 
 ![Video Walkthrough](gifs/viewresources.gif)
 
-### ✅ Resource details page
+### Resource details page
 
 A resource card from the list of all resources links to a details page where you can get more information about accessing the specified resource.
 
 ![Video Walkthrough](gifs/resourcedetails.gif)
 
-### ✅ Favoriting a resource
+### Favoriting a resource
 
 Favoriting via main page or details page will result in the specified resource persisting in the favorities section across visits.
 
 ![Video Walkthrough](gifs/favoriteresource.gif)
 
-### ✅ Creating and reading a review
+### Creating and reading a review
 
 Review a specific resource and have it show up on the resource details page.
 
-### ✅ Edit a review
+### Edit a review
 
 Edit an existing review authored by the user (verify using authentication), and have it update in the database.
 
-### ✅ Delete a review
+### Delete a review
 
 Delete an existing review authored by the user (verify using authentication), and have it update in the database.
 
@@ -62,15 +62,15 @@ Delete an existing review authored by the user (verify using authentication), an
 
 ## Additional Features
 
-### ✅ Change location
+### Change location
 
 Can change the location using city/town name or zip to find relevant resources. (ex. using public wifi/computer to find resources but live somewhere else)
 
-### ✅ Filter through resources
+### Filter through resources
 
 Can filter through resources based on type. 
 
-### ✅Search for specific resource(s)
+### Search for specific resource(s)
 
 Search bar that returns relevant resources based on the user query.
 
